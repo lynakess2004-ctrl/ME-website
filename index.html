@@ -100,21 +100,22 @@
         <canvas id="windingCanvas" width="520" height="520"></canvas>
 <canvas id="linearCanvas" width="600" height="260" style="display:none"></canvas>
       </div>
+<select id="linearPhaseFilter">
+  <option value="ALL">All phases</option>
+  <option value="A">Phase A</option>
+  <option value="B">Phase B</option>
+  <option value="C">Phase C</option>
+</select>
 
       <div class="panel-center-footer">
         <div class="checkbox-row">
-          <label><input type="checkbox" /> Slot Numbers</label>
-          <label><input type="checkbox" /> Phase Labels</label>
-          <label><input type="checkbox" /> Coil Indices</label>
-          <label><input type="checkbox" /> Direction Arrows</label>
-        </div>
+          <label><input type="checkbox" id="showSlotNumbers" checked> Slot Numbers</label>
+<label><input type="checkbox" id="showPhaseLabels"> Phase Labels</label>
+<label><input type="checkbox" id="showCoilIndices"> Coil Indices</label>
+<label><input type="checkbox" id="showDirectionArrows" checked> Direction Arrows</label>
+</div>
 
-        <div class="phase-legend">
-          <span>Phase Legend</span>
-          <span class="dot dot-a"></span> Phase A
-          <span class="dot dot-b"></span> Phase B
-          <span class="dot dot-c"></span> Phase C
-        </div>
+        
       </div>
     </section>
 
@@ -162,4 +163,6 @@
   <script src="jss.js"></script>
 </body>
 </html>
+
+
 
