@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AC Machine Winding Calculator</title>
+  <link rel="stylesheet" href="style2.css" />
+</head>
+<body>
+  <header class="app-header">
+    <h1>AC Machine Winding Calculator</h1>
+    <p>
+      Design, calculate, and visualize single-layer and double-layer windings for AC
+      machines with precision engineering tools.
+    </p>
+  </header>
+
+  <main class="app-main">
+    <!-- Left: parameters -->
+    <section class="panel panel-left">
+      <h2 class="panel-title">Machine Parameters</h2>
+
+      <div class="field-group">
+        <label for="Z">Number of Slots (Z)</label>
+        <input type="number" id="Z" value="24" />
+      </div>
+
+      <div class="field-group">
+        <label for="poles">Number of Poles</label>
+        <input type="number" id="poles" value="4" />
+      </div>
+
+      <div class="field-group">
+        <label>Number of Phases</label>
+        <select id="phases">
+          <option value="1">1 Phase</option>
+          <option value="2">2 Phases</option>
+          <option value="3" selected>3 Phases</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label>Connection Type</label>
+        <select id="connectionType">
+          <option value="star">Star (Y)</option>
+          <option value="delta">Triangle (Δ)</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label>Winding Type</label>
+        <select id="windingType">
+          <option value="single">Single-layer</option>
+          <option value="double">Double-layer</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label>Coil Pitch Type</label>
+        <select id="coilPitchType">
+          <option value="full">Full-pitched</option>
+          <option value="custom">Customised pitch</option>
+        </select>
+      </div>
+
+      <div class="field-group disabled" id="shortPitchGroup">
+        <label>Short Pitch Offset k (slots)</label>
+        <select id="shortPitchSelect" disabled>
+          <option value="">Choose an option...</option>
+          <option value="1">1 slot</option>
+          <option value="2">2 slots</option>
+          <option value="3">3 slots</option>
+          <option value="4">4 slots</option>
+        </select>
+      </div>
+
+      <h3 class="sub-title">Optional Parameters</h3>
+
+      <p class="warning-text" id="warning" style="visibility:hidden;">
+        Parameters are incompatible
+      </p>
+
+      <button class="btn btn-primary full-width" onclick="calculate()">
+        Calculate Winding
+      </button>
+
+      <div id="results" class="results-box"></div>
+    </section>
+
+    <!-- Center: winding layout -->
+    <section class="panel panel-center">
+      <div class="panel-center-header">
+        <span class="panel-title mono">Winding Layout</span>
+        <div class="view-toggle">
+          <button class="chip chip-active" id="btnCircular">Circular View</button>
+          <button class="chip" id="btnLinear">Linear View</button>
+        </div>
+      </div>
+
+      <div class="canvas-placeholder">
+        <canvas id="windingCanvas" width="520" height="520"></canvas>
+<canvas id="linearCanvas" width="600" height="260" style="display:none"></canvas>
+      </div>
+
+      <div class="panel-center-footer">
+        <div class="checkbox-row">
+          <label><input type="checkbox" /> Slot Numbers</label>
+          <label><input type="checkbox" /> Phase Labels</label>
+          <label><input type="checkbox" /> Coil Indices</label>
+          <label><input type="checkbox" /> Direction Arrows</label>
+        </div>
+
+        <div class="phase-legend">
+          <span>Phase Legend</span>
+          <span class="dot dot-a"></span> Phase A
+          <span class="dot dot-b"></span> Phase B
+          <span class="dot dot-c"></span> Phase C
+        </div>
+      </div>
+    </section>
+
+    <!-- Right: summary + coil table -->
+    <section class="panel panel-right">
+      <div class="summary-card">
+        <div class="summary-header">
+          <h2 class="panel-title">Summary</h2>
+        </div>
+
+        <dl class="summary-list">
+          <div><dt>Slots/Pole/Phase</dt><dd id="sum-spp">–</dd></div>
+          <div><dt>Total Slots</dt><dd id="sum-slots">–</dd></div>
+          <div><dt>Poles</dt><dd id="sum-poles">–</dd></div>
+          <div><dt>Phases</dt><dd id="sum-phases">–</dd></div>
+          <div><dt>Short pitch k (slots)</dt><dd id="sum-k">–</dd></div>
+          <div><dt>k<sub>w</sub></dt><dd id="sum-kw">–</dd></div>
+          <div><dt>Connection</dt><dd id="sum-connection">–</dd></div>
+          <div><dt>Winding Type</dt><dd id="sum-winding">–</dd></div>
+          <div><dt>Coil Pitch</dt><dd id="sum-coilpitch">–</dd></div>
+        </dl>
+      </div>
+
+      <div class="summary-card">
+        <div class="summary-header">
+          <h2 class="panel-title">Coil Data</h2>
+        </div>
+
+        <table id="windingTable" class="data-table">
+          <tr>
+            <th>Coil</th>
+            <th>Phase</th>
+            <th>Start</th>
+            <th>End</th>
+            <th>Current direction</th>
+          </tr>
+          <tr>
+            <td colspan="5" class="table-empty">No data calculated yet</td>
+          </tr>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <script src="jss.js"></script>
+</body>
+</html>
