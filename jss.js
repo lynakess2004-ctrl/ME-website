@@ -30,6 +30,27 @@ const phaseColors = {
 };
 
 /* ================= DATA ================= */
+function setupThemeToggle() {
+  const btn = document.getElementById("btnThemeToggle");
+  if (!btn) return;
+
+  // initial label
+  function updateLabel() {
+    const dark = document.body.classList.contains("dark");
+    btn.textContent = dark ? "Light mode" : "Dark mode";
+  }
+
+  btn.addEventListener("click", () => {
+    document.body.classList.toggle("dark");
+    updateLabel();
+
+    // redraw canvases to make sure background looks right
+    const Z = +document.getElementById("Z").value || 24;
+    drawAll(Z);
+  });
+
+  updateLabel();
+}
 
 let coils = [];
 let selectedCoil = null;
@@ -37,7 +58,7 @@ let selectedCoil = null;
 /* ================= MAIN CALCULATION ================= */
 
 function calculate() {
-  const phases        = parseInt(document.getElementById("phases").value, 10);
+  const phases         = parseInt(document.getElementById("phases").value, 10);
   const connectionType = document.getElementById("connectionType").value;
   const windingType    = document.getElementById("windingType").value;
   const coilPitchType  = document.getElementById("coilPitchType").value;
@@ -54,11 +75,11 @@ function calculate() {
     k = +(kSelect.value || 0);
   }
 
-  const p    = poles / 2;
-  const q    = Z / (2 * p * m);      // slots per pole per phase
-  const tau  = Z / (2 * p);          // slots per pole (full pitch)
-  const y    = tau - k;              // coil span in slots
-  const alpha = (180 * poles) / Z;   // slot angle in electrical degrees
+  const p     = poles / 2;
+  const q     = Z / (2 * p * m);        // slots per pole per phase
+  const tau   = Z / (2 * p);            // slots per pole (full pitch)
+  const y     = tau - k;                // coil span in slots
+  const alpha = (180 * poles) / Z;      // slot angle in electrical degrees
 
   const kp = Math.cos((k * alpha * Math.PI) / 360); // pitch factor
   const kd =
@@ -76,29 +97,43 @@ function calculate() {
     <p><b>k<sub>w</sub> = ${kw.toFixed(4)}</b></p>
   `;
 
+  // small animation: fade canvases, redraw, fade in
+  const windingCanvas = document.getElementById("windingCanvas");
+  const linearCanvas  = document.getElementById("linearCanvas");
+
+  if (windingCanvas) windingCanvas.classList.add("redrawing");
+  if (linearCanvas)  linearCanvas.classList.add("redrawing");
+
   // build model (single or double layer)
   buildCoils(Z, poles, y);
 
   // draw both views
   drawAll(Z);
 
+  // remove fade class on next frame so CSS animates opacity back to 1
+  requestAnimationFrame(() => {
+    if (windingCanvas) windingCanvas.classList.remove("redrawing");
+    if (linearCanvas)  linearCanvas.classList.remove("redrawing");
+  });
+
   // fill coil table
   buildTable();
 
   // summary card
-  document.getElementById("sum-slots").textContent       = Z;
-  document.getElementById("sum-poles").textContent       = poles;
-  document.getElementById("sum-phases").textContent      = phases;
-  document.getElementById("sum-k").textContent           = k;
-  document.getElementById("sum-spp").textContent         = q.toFixed(2);
-  document.getElementById("sum-kw").textContent          = kw.toFixed(4);
-  document.getElementById("sum-connection").textContent  =
+  document.getElementById("sum-slots").textContent      = Z;
+  document.getElementById("sum-poles").textContent      = poles;
+  document.getElementById("sum-phases").textContent     = phases;
+  document.getElementById("sum-k").textContent          = k;
+  document.getElementById("sum-spp").textContent        = q.toFixed(2);
+  document.getElementById("sum-kw").textContent         = kw.toFixed(4);
+  document.getElementById("sum-connection").textContent =
     connectionType === "star" ? "Star (Y)" : "Triangle (Δ)";
-  document.getElementById("sum-winding").textContent     =
+  document.getElementById("sum-winding").textContent    =
     windingType === "single" ? "Single-layer" : "Double-layer";
-  document.getElementById("sum-coilpitch").textContent   =
+  document.getElementById("sum-coilpitch").textContent  =
     coilPitchType === "full" ? "Full-pitched" : "Customised";
 }
+
 
 /* ================= COILS MODEL ================= */
 
@@ -724,5 +759,8 @@ window.addEventListener("load", () => {
   setupViewToggle();
   setupCoilPitchToggle();
   setupLinearZoomPan();
+  setupThemeToggle();   
   // user clicks calculate() to draw
 });
+
+
