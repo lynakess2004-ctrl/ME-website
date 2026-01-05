@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>AC Machine Winding Calculator</title>
   <link rel="stylesheet" href="style2.css" />
 </head>
@@ -95,28 +96,29 @@
           <button class="chip chip-active" id="btnCircular">Circular View</button>
           <button class="chip" id="btnLinear">Linear View</button>
         </div>
+        <!-- Dark / light theme toggle -->
+        <button class="chip chip-outline" id="btnThemeToggle">Dark mode</button>
       </div>
 
       <div class="canvas-placeholder">
         <canvas id="windingCanvas" width="520" height="520"></canvas>
-<canvas id="linearCanvas" width="600" height="260" style="display:none"></canvas>
+        <canvas id="linearCanvas" width="600" height="260" style="display:none"></canvas>
       </div>
-<select id="linearPhaseFilter">
-  <option value="ALL">All phases</option>
-  <option value="A">Phase A</option>
-  <option value="B">Phase B</option>
-  <option value="C">Phase C</option>
-</select>
+
+      <select id="linearPhaseFilter">
+        <option value="ALL">All phases</option>
+        <option value="A">Phase A</option>
+        <option value="B">Phase B</option>
+        <option value="C">Phase C</option>
+      </select>
 
       <div class="panel-center-footer">
         <div class="checkbox-row">
           <label><input type="checkbox" id="showSlotNumbers" checked> Slot Numbers</label>
-<label><input type="checkbox" id="showPhaseLabels"> Phase Labels</label>
-<label><input type="checkbox" id="showCoilIndices"> Coil Indices</label>
-<label><input type="checkbox" id="showDirectionArrows" checked> Direction Arrows</label>
-</div>
-
-        
+          <label><input type="checkbox" id="showPhaseLabels"> Phase Labels</label>
+          <label><input type="checkbox" id="showCoilIndices"> Coil Indices</label>
+          <label><input type="checkbox" id="showDirectionArrows" checked> Direction Arrows</label>
+        </div>
       </div>
     </section>
 
@@ -164,6 +166,8 @@
   <script src="jss.js"></script>
 </body>
 </html>
+
+
 
 
 
