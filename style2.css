@@ -192,19 +192,6 @@ body {
   background: transparent;
 }
 
-.panel-tools {
-  margin-left: auto;
-  display: flex;
-  gap: 4px;
-}
-
-.icon-btn {
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  font-size: 13px;
-}
-
 /* Canvas placeholder */
 
 .canvas-placeholder {
@@ -220,17 +207,22 @@ body {
   font-size: 13px;
   text-align: center;
   margin-bottom: 10px;
-  /* make canvas area responsive */
   width: 100%;
 }
 
-/* canvases: high internal resolution, scale to container */
+/* canvases: high internal resolution, scale to container + fade animation */
 
 #windingCanvas,
 #linearCanvas {
   max-width: 100%;
   height: auto;
   display: block;
+  transition: opacity 0.25s ease-out;
+  opacity: 1;
+}
+
+canvas.redrawing {
+  opacity: 0;
 }
 
 #windingCanvas {
@@ -417,5 +409,94 @@ body {
     font-size: 12px;
   }
 }
+
+/* ========== Dark theme ========== */
+
+body.dark {
+  background: #111827;
+  color: #e5e7eb;
+}
+
+body.dark .app-header {
+  background: linear-gradient(to bottom, #0f172a 0%, #111827 70%);
+}
+
+body.dark .app-header h1 {
+  color: #e5e7eb;
+}
+
+body.dark .app-header p {
+  color: #9ca3af;
+}
+
+body.dark .panel {
+  background: #020617;
+  border: 1px solid #1f2937;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+body.dark .panel-title,
+body.dark label,
+body.dark dt,
+body.dark dd {
+  color: #e5e7eb;
+}
+
+body.dark .field-group input,
+body.dark .field-group select {
+  background: #0f172a;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+body.dark .btn {
+  background: #111827;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+body.dark .btn-primary {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+body.dark .chip {
+  background: #111827;
+  border-color: #374151;
+  color: #e5e7eb;
+}
+
+body.dark .chip-active {
+  background: #2563eb;
+  border-color: #2563eb;
+  color: #e5e7eb;
+}
+
+body.dark .canvas-placeholder {
+  border-color: #374151;
+  color: #9ca3af;
+}
+
+body.dark #windingCanvas,
+body.dark #linearCanvas {
+  background: #020617;
+}
+
+body.dark .summary-card {
+  background: #020617;
+  border-color: #1f2937;
+}
+
+body.dark .data-table {
+  background: #020617;
+  color: #e5e7eb;
+}
+
+body.dark .data-table th,
+body.dark .data-table td {
+  border-color: #374151;
+}
+
+
 
 
